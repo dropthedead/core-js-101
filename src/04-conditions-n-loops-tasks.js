@@ -27,8 +27,14 @@
  *  21 => 'Fizz'
  *
  */
-function getFizzBuzz(/* num */) {
-  throw new Error('Not implemented');
+function getFizzBuzz(num) {
+  switch (true) {
+    case (num % 5 === 0 && num % 3 === 0): return 'FizzBuzz';
+    case (num % 3 === 0): return 'Fizz';
+    case (num % 5 === 0): return 'Buzz';
+
+    default: return num;
+  }
 }
 
 
@@ -43,8 +49,8 @@ function getFizzBuzz(/* num */) {
  *   5  => 120
  *   10 => 3628800
  */
-function getFactorial(/* n */) {
-  throw new Error('Not implemented');
+function getFactorial(n) {
+  return (n !== 1) ? n * getFactorial(n - 1) : 1;
 }
 
 
@@ -60,8 +66,12 @@ function getFactorial(/* n */) {
  *   5,10  =>  45 ( = 5+6+7+8+9+10 )
  *   -1,1  =>  0  ( = -1 + 0 + 1 )
  */
-function getSumBetweenNumbers(/* n1, n2 */) {
-  throw new Error('Not implemented');
+function getSumBetweenNumbers(n1, n2) {
+  let sum = 0;
+  for (let i = n1; i <= n2; i += 1) {
+    sum += i;
+  }
+  return sum;
 }
 
 
@@ -80,10 +90,10 @@ function getSumBetweenNumbers(/* n1, n2 */) {
  *   10,1,1   =>  false
  *   10,10,10 =>  true
  */
-function isTriangle(/* a, b, c */) {
-  throw new Error('Not implemented');
+function isTriangle(a, b, c) {
+  if (a + b > c && a + c > b && b + c > a) return true;
+  return false;
 }
-
 
 /**
  * Returns true, if two specified axis-aligned rectangles overlap, otherwise false.
@@ -164,10 +174,19 @@ function isInsideCircle(/* circle, point */) {
  *   'abracadabra'  => 'c'
  *   'entente' => null
  */
-function findFirstSingleChar(/* str */) {
-  throw new Error('Not implemented');
+function findFirstSingleChar(str) {
+  let char = null;
+  let temp = '';
+  for (let i = 0; i < str.length; i += 1) {
+    const letter = str.charAt(i);
+    if (!str.slice(i + 1).includes(letter) && !temp.includes(letter)) {
+      char = letter;
+      break;
+    }
+    temp += letter;
+  }
+  return char;
 }
-
 
 /**
  * Returns the string representation of math interval,
@@ -191,8 +210,23 @@ function findFirstSingleChar(/* str */) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
+function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
+  let min = a;
+  let max = b;
+  if (b < min) {
+    min = b;
+    max = a;
+  }
+  if (isStartIncluded && isEndIncluded) {
+    return `[${min}, ${max}]`;
+  }
+  if (!isStartIncluded && !isEndIncluded) {
+    return `(${min}, ${max})`;
+  }
+  if (isStartIncluded && !isEndIncluded) {
+    return `[${min}, ${max})`;
+  }
+  return `(${min}, ${max}]`;
 }
 
 
@@ -208,8 +242,8 @@ function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
  * 'rotator' => 'rotator'
  * 'noon' => 'noon'
  */
-function reverseString(/* str */) {
-  throw new Error('Not implemented');
+function reverseString(str) {
+  return str.split('').reverse().join('');
 }
 
 
@@ -225,8 +259,8 @@ function reverseString(/* str */) {
  *   87354 => 45378
  *   34143 => 34143
  */
-function reverseInteger(/* num */) {
-  throw new Error('Not implemented');
+function reverseInteger(num) {
+  return +num.toString().split('').reverse().join('');
 }
 
 
@@ -336,8 +370,21 @@ function toNaryString(/* num, n */) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  let temp = '';
+  const first = pathes[0];
+  const newarr = pathes.slice(1);
+
+  for (let i = 0; i < first.length; i += 1) {
+    const letter = first[i];
+
+    // eslint-disable-next-line no-loop-func
+    if (newarr.every((path) => path.startsWith(temp + letter))) {
+      temp += letter;
+    } else break;
+  }
+
+  return temp ? `${temp.split('/').slice(0, -1).join('/')}/` : '';
 }
 
 
